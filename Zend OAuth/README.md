@@ -19,7 +19,8 @@ Example OAuth RPC API controller for retrieving items by id(s)
 				$data = Core_Model_Mongo_Item::getDataByIds($ids, $this->user, $admin);
 			}
 			else {
-				throw new Sit_Exception_Api('You must provide one of the following fields: id or ids', Sit_Errors::PARAMETER);
+				throw new Sit_Exception_Api('You must provide one of the following fields: id or ids', 
+							Sit_Errors::PARAMETER);
 			}
 
 			if (!$data) {
@@ -40,7 +41,8 @@ Example OAuth RPC API controller for retrieving items by id(s)
 					$model = Core_Model_Mongo_Item::getById($data['id'], $this->user);
 				
 				if (!$model) {
-					throw new Sit_Exception_Api('You do not have permission to to save that item.', Sit_Errors::PERMISSION_DENIED);
+					throw new Sit_Exception_Api('You do not have permission to to save that item.', 
+								Sit_Errors::PERMISSION_DENIED);
 				}
 			}
 			else {
