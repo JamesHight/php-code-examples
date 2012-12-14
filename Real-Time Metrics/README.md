@@ -21,5 +21,5 @@ If for some reason the metrics server(s) go down, the application servers will r
 	B72_Metrics::timerEnd('facebook.login');
 	
 	// End execution timer, log peak memory usage,
-	// pass all data to B72_Log_Metrics so it can sent to the metrics server
+	// pass all data to B72_Log_Metrics so it can be sent to the metrics server
 	B72_Metrics::end();
