@@ -112,7 +112,7 @@ This is an admin CRUD controller built on a custom scaffold. See [Sit_Controller
 
 	}
 
-Associate form
+Associated Zend form
 
 	<?php
 	/**
