@@ -1,5 +1,5 @@
 Real-Time Metrics
------------------
+=================
 
 All data is sent over UDP to a Node.js aggregate server and then logged to Graphite.
 If for some reason the metrics server(s) go down, the application servers will remain unaffected.

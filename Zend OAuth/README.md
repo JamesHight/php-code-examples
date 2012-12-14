@@ -1,5 +1,5 @@
-Zend API OAuth Server Example
-=============================
+Zend OAuth API Server
+=====================
 
 Example OAuth RPC API controller for retrieving items by id(s)
 --------------------------------------------------------------
