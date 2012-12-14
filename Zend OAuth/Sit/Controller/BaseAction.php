@@ -35,17 +35,17 @@ class Sit_Controller_BaseAction extends Zend_Controller_Action {
 	 **/
 
 	protected function validCallback($callback) {        
- 
-        foreach(explode('.', $callback) as $identifier) {
-            if(!preg_match('/^[a-zA-Z_$][0-9a-zA-Z_$]*(?:\[(?:".+"|\'.+\'|\d+)\])*?$/', $identifier)) {
-                return false;
-            }
-            if(in_array($identifier, $this->jsReservedWords)) {
-                return false;
-            }
-        }
- 
-        return true;    
+
+		foreach(explode('.', $callback) as $identifier) {
+			if(!preg_match('/^[a-zA-Z_$][0-9a-zA-Z_$]*(?:\[(?:".+"|\'.+\'|\d+)\])*?$/', $identifier)) {
+				return false;
+			}
+			if(in_array($identifier, $this->jsReservedWords)) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 	
 	/**
