@@ -1,7 +1,10 @@
 Zend API OAuth Server Example
------------------------------
+=============================
 
 Example OAuth RPC API controller for retrieving items by id(s)
+--------------------------------------------------------------
+
+This is an OAuth protected API controller. See [Sit_Controller_UserAction](https://github.com/JamesHight/php-code-examples/blob/master/Zend%20OAuth/Sit/Controller/UserAction.php) for more detail.
 
 	class ItemController extends Sit_Controller_UserAction {
 
@@ -61,7 +64,10 @@ Example OAuth RPC API controller for retrieving items by id(s)
 		}
 	}
 
-Example admin CRUD controller for groups
+Example admin CRUD controller
+-----------------------------
+
+This is an admin CRUD controller build on a custom scaffold. See [Sit_Controller_Admin_CrudAction](https://github.com/JamesHight/php-code-examples/blob/master/Zend%20OAuth/Sit/Controller/Admin/CrudAction.php) for more detail.
 
 	class Admin_GroupController extends Sit_Controller_Admin_CrudAction {
 
@@ -81,5 +87,64 @@ Example admin CRUD controller for groups
 		public function  deleteAction() {
 			
 		}
+
+	}
+
+Associate form
+
+	<?php
+	class Admin_Form_Group extends Sit_Form {
+		
+		public function start() {
+			$this->addElement('hidden', 'id');
+			
+			$this->addElement('text', 'name', array(
+					'label' => 'Name',
+					'required' => true,
+					'validators' => array('NotEmpty')
+				));
+
+			// Permissions
+			$options = array();
+			foreach (Doctrine::getTable('Core_Model_Permission')->findAll() as $option) {
+				$options[$option->id] = $option->label ;
+			}
+			$this->addElement('multiselect', 'permission_ids', array(
+					'label' => 'Permissions',
+					'multioptions' => $options
+				));
+
+			$submit = $this->addElement('submit', 'submit', array(
+					'label' => 'Create',
+					'order' => 1000
+				));
+	    }
+
+	    
+	    public function loadClass($group) {
+	    	$this->getElement('name')->setValue($group->name);
+
+			$permissionIds = array();
+			foreach ($group->Permissions as $permission) {
+				$permissionIds[] = $permission->id;
+			}
+			$this->getElement('permission_ids')->setValue($permissionIds);
+		}
+	    
+	    public function updateClass($group) {
+	    	$group->name = $this->getElement('name')->getValue();
+
+			if (!$group->id) {
+				$group->save();
+			}
+
+			// Permissions
+			$ids = $this->getElement('permission_ids')->getValue();
+			$this->updateManyToMany($group, $ids, 'Core_Model_GroupPermission', 'group_id', 'permission_id');
+			$group->refreshRelated('Permissions');
+
+	    	$group->save();
+
+	    }
 
 	}
