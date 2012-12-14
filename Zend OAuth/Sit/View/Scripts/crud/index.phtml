@@ -1,0 +1,102 @@
+<?php
+$controller = Sit_Inflector::fromCamelCase($this->crudName);
+$params = null;
+if($this->searchEnabled) {
+	if ($this->search != '') {
+		$params = array('search'=>$this->search);
+	}
+echo '
+<div class="search">
+	<form action="/' . $this->moduleName . '/' . $controller . '/index" method="GET">
+		<input type="text" name="search" value="' . htmlspecialchars($this->search) . '"/>
+		<input type="submit" value="Search"/>
+	</form>
+</div>
+';
+}
+
+$pager = $this->pager('/' . $this->moduleName . '/' . $controller . '/index/id/', $this->doctrinePager, $params);
+?>
+
+<table style="width: 100%;">
+	<tr>
+		<td align="center">
+
+<?php echo $pager;?>
+
+
+<div class="itemTable">
+<table>
+<tr><?php 
+if ($this->crudIndexFields) {
+	foreach ($this->crudIndexFields as $field) {
+		echo '<th>' . $field['label'] . '</th>';
+	}
+}
+?></tr>
+<?php 
+if ($this->doctrineItems) {
+	foreach($this->doctrineItems as $item) {
+		echo '<tr>';
+		foreach ($this->crudIndexFields as $field) {
+			switch($field['type']) {
+				case Sit_Controller_Admin_CrudAction::TYPE_CLASS:					
+					echo '<td><a href="/' . $this->moduleName . '/' . strtolower($field['class']) . '/edit/id/' . $item->{$field['class']}->id . '">' . $item->{$field['class']}->{$field['field']} . '</a></td>';
+					break;
+
+				case Sit_Controller_Admin_CrudAction::TYPE_EDIT:
+					echo '<td><a href="/' . $this->moduleName . '/' . $controller . '/edit/id/' . $item->id . '">edit</a></td>';
+					break;
+
+				case Sit_Controller_Admin_CrudAction::TYPE_DELETE:
+					echo '<td><a href="#" onclick="deleteItem(' . $item->id . '); return false;">delete</a></td>';
+					break;
+					
+				case Sit_Controller_Admin_CrudAction::TYPE_PASSWORD:
+					echo '<td><a href="/' . $this->moduleName . '/' . $controller . '/password/id/' . $item->id . '">password</a></td>';
+					break;
+					
+				case Sit_Controller_Admin_CrudAction::TYPE_PUBLIC:
+					$public = $item->public ? 'public' : 'private';
+					echo '<td>' . $public  . '</td>';
+					break;
+					
+				case Sit_Controller_Admin_CrudAction::TYPE_DISABLED:
+					$disabled = $item->disabled ? '<span class="disabled">disabled</span>' : '<span class="enabled">enabled</span>';
+					echo '<td>' . $disabled . '</td>';
+					break;
+			
+				case Sit_Controller_Admin_CrudAction::TYPE_DATE:					
+					$time = strtotime($item->{$field['field']});
+					$date = date('Y/m/d H:i:s', $time);
+					echo '<td>' . $date . '</td>';
+					break;
+
+				case Sit_Controller_Admin_CrudAction::TYPE_LABEL:					
+					echo '<td>' . $item->{$field['field']}->label . '</td>';
+					break;
+
+				case Sit_Controller_Admin_CrudAction::TYPE_FIELD:
+					echo '<td>' . $item->{$field['field']} . '</td>';
+					break;
+
+				case Sit_Controller_Admin_CrudAction::TYPE_URL:
+					$url = str_replace('%id%', $item->id, $field['url']);
+					echo '<td><a href="' . $url . '" target="_blank">' . strtolower($field['label']) . '</a></td>';
+					break;
+				
+			}
+			
+		}			
+		echo '</tr>'; 
+	}
+}
+?>
+</table>
+</div>
+
+<?php echo $pager;?>
+
+		</td>
+	</tr>
+</table>
