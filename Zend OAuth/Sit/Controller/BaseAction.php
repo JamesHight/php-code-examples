@@ -31,6 +31,7 @@ class Sit_Controller_BaseAction extends Zend_Controller_Action {
 
 	/**
 	 * Check that a JSONP callback is valid	 
+	 * @param String $callback JSONP callback to validate
 	 **/
 
 	protected function validCallback($callback) {        
