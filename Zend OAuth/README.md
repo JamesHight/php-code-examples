@@ -67,7 +67,7 @@ This is an OAuth protected API controller. See [Sit_Controller_UserAction](https
 Example admin CRUD controller
 -----------------------------
 
-This is an admin CRUD controller build on a custom scaffold. See [Sit_Controller_Admin_CrudAction](https://github.com/JamesHight/php-code-examples/blob/master/Zend%20OAuth/Sit/Controller/Admin/CrudAction.php) for more detail.
+This is an admin CRUD controller built on a custom scaffold. See [Sit_Controller_Admin_CrudAction](https://github.com/JamesHight/php-code-examples/blob/master/Zend%20OAuth/Sit/Controller/Admin/CrudAction.php) for more detail.
 
 	class Admin_GroupController extends Sit_Controller_Admin_CrudAction {
 
