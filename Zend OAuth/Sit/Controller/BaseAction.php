@@ -6,6 +6,17 @@
  **/
 
 class Sit_Controller_BaseAction extends Zend_Controller_Action {
+
+	protected $jsReservedWords = array( 'break', 'do', 'instanceof',
+            'typeof', 'case', 'else','new', 'var', 'catch',
+            'finally', 'return', 'void', 'continue',  'for',
+            'switch', 'while', 'debugger', 'function', 'this',
+            'with',  'default', 'if', 'throw', 'delete', 'in',
+            'try', 'class', 'enum',  'extends', 'super', 'const',
+            'export', 'import', 'implements', 'let',  'private',
+            'public', 'yield', 'interface', 'package', 'protected', 
+            'static', 'null', 'true', 'false'
+        );
 	
 	/** 
 	 * Handle XHR2 OPTIONS Request 
@@ -17,6 +28,24 @@ class Sit_Controller_BaseAction extends Zend_Controller_Action {
 			exit;
 		}
 	}    
+
+	/**
+	 * Check that a JSONP callback is valid	 
+	 **/
+
+	protected function validCallback($callback) {        
+ 
+        foreach(explode('.', $callback) as $identifier) {
+            if(!preg_match('/^[a-zA-Z_$][0-9a-zA-Z_$]*(?:\[(?:".+"|\'.+\'|\d+)\])*?$/', $identifier)) {
+                return false;
+            }
+            if(in_array($identifier, $this->jsReservedWords)) {
+                return false;
+            }
+        }
+ 
+        return true;    
+	}
 	
 	/**
 	 * Output JSON instead of page
@@ -31,12 +60,19 @@ class Sit_Controller_BaseAction extends Zend_Controller_Action {
 		$func = $this->_getParam('callback');
 		if ($func) {
 			$this->_response->setHeader('Content-Type', 'application/javascript', true);
+			if (!$this->validCallback($func)) {
+				throw new Sit_Exception_Api("Invalid callback", Sit_Errors::PARAMETER);
+			}
+
 			$jsonString = $func . '(' . $jsonString . ')';
 		}
 		else  {
 			// Send response back using easyXDM? Mainly used for file uploads.
 			$easyXDM = $this->_getParam('easyXDM');
 			if ($easyXDM) { 
+				if (!$this->validCallback($easyXDM)) {
+					throw new Sit_Exception_Api("Invalid easyXDM callback", Sit_Errors::PARAMETER);
+				}
 				$jsonString = '<html><head></head><body><script>parent.rpc.' . 
 					$easyXDM . '(' . $jsonString . ');</script></body></html>';
 			}
