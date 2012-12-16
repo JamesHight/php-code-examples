@@ -1,0 +1,9 @@
+<?php 
+echo '<a href="#" onclick="disableItem(this, ' . $this->user->id . '); return false;">';
+if ($this->user->disabled) {
+	echo 'disabled';
+}
+else {
+	echo 'enabled';
+}
+echo '</a>123';
