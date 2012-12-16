@@ -1,5 +1,5 @@
-[PHP Code Examples](https://github.com/JamesHight/php-code-examples)
-====================================================================
+[PHP Code Examples]
+===================
 
 
 Here are a few PHP coding samples taken from production code.
