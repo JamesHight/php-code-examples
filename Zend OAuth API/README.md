@@ -1,7 +1,7 @@
 Example OAuth RPC API controller for retrieving items by id(s)
 --------------------------------------------------------------
 
-This is an OAuth protected API controller. See [Sit_Controller_UserAction](https://github.com/JamesHight/php-code-examples/blob/master/Zend%20OAuth/Sit/Controller/UserAction.php) and [Sit_Controller_BaseAction](https://github.com/JamesHight/php-code-examples/blob/master/Zend%20OAuth/Sit/Controller/BaseAction.php) for more detail.
+This is an OAuth protected API controller. See [Sit_Controller_UserAction](https://github.com/JamesHight/php-code-examples/blob/master/Zend%20OAuth%20API/Sit/Controller/UserAction.php) and [Sit_Controller_BaseAction](https://github.com/JamesHight/php-code-examples/blob/master/Zend%20OAuth%20API/Sit/Controller/BaseAction.php) for more detail.
 
 	class ItemController extends Sit_Controller_UserAction {
 
