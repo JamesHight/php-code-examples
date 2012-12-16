@@ -1,7 +1,7 @@
 PHP Code Examples
 =================
 
-view on [github](https://github.com/JamesHight/php-code-examples)
+[view on github](https://github.com/JamesHight/php-code-examples)
 
 Here are a few PHP coding samples taken from production code.
 
